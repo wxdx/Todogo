@@ -23,7 +23,7 @@ user = 你的数据库用户名
 password = 你的数据库密码
 host = 你的数据库host地址
 port = 你的数据库端口
-db = bubble
+db = todo
 ```
 
 ### 编译
