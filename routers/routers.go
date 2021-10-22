@@ -2,29 +2,23 @@ package routers
 
 import (
 	"Todogo/controller"
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
-func SetupRouter() *gin.Engine {
+func SetupRouter() *fiber.App {
 
 	//gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.LoadHTMLGlob("template/*")
-	//告诉gin 静态文件在哪个文件夹
-	r.Static("/static", "static")
-	r.GET("/", controller.IndexHandler)
+	app := fiber.New()
+	app.Static("/", "template/index.html")
+	app.Static("/static", "static")
 
-	v1Group := r.Group("v1")
-	//待办事项
-	//添加
-	v1Group.POST("/todo", controller.Create)
-	//查看所有待办事项
-	v1Group.GET("/todo", controller.FindList)
-	//修改某个待办事项
-	v1Group.PUT("/todo/:id", controller.Update)
-	//删除某个待办事项
-	v1Group.DELETE("/todo/:id", controller.Delete)
+	v1 := app.Group("/v1")
 
-	return r
+	v1.Post("/todo", controller.Create)
+	v1.Get("/todo", controller.FindList)
+	v1.Put("/todo/:id", controller.Update)
+	v1.Delete("/todo/:id", controller.Delete)
+
+	return app
 
 }
